@@ -642,7 +642,7 @@ static class CustomFluentExtensions
 					null,
 					false,
 					"generate a separate static extension method on FluentMappingBuilder for each entity",
-					@"When enabled with --metadata fluent, instead of placing all entity fluent mapping configuration in one large block inside the data context static constructor, the tool generates a static extension method per entity on FluentMappingBuilder (e.g. builder.MapMyEntity()). These methods are placed in a partial static class named FluentMappingExtensions alongside the data context. The data context static constructor calls each method in sequence. This makes the generated mapping code easier to navigate and review for large schemas.",
+					@"When enabled with --metadata fluent, instead of placing all entity fluent mapping configuration in one large block inside the data context static constructor, the tool generates a static extension method per entity on FluentMappingBuilder (e.g. builder.MapMyEntity()). These methods are placed in a partial static class named FluentMappingExtensions alongside the data context. The data context static constructor calls each method in sequence. This makes the generated mapping code easier to navigate and review for large schemas. It also enables building smaller targeted data contexts by reusing the mapping methods.",
 					new[] { "--fluent-mapping-per-entity true --metadata fluent" },
 					/*lang=json,strict*/
 					new[] { "{ \"dataModel\": { \"fluent-mapping-per-entity\": true, \"metadata\": \"fluent\" } }" },
