@@ -608,8 +608,8 @@ namespace LinqToDB.CodeModel
 				Write(' ');
 				Visit(property.TrailingComment);
 			}
-
-			WriteLine();
+			else
+				WriteLine();
 		}
 
 		protected override void Visit(CodeNamespace @namespace)
