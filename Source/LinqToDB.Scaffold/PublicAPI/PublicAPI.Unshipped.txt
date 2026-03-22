@@ -1,1 +1,3 @@
 ﻿#nullable enable
+LinqToDB.Scaffold.DataModelOptions.GenerateFluentMappingPerEntity.get -> bool
+LinqToDB.Scaffold.DataModelOptions.GenerateFluentMappingPerEntity.set -> void

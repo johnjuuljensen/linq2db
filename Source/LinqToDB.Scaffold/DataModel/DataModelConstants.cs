@@ -52,6 +52,16 @@ namespace LinqToDB.DataModel
 		public const string EXTENSIONS_CLASS                             = "ExtensionMethods";
 
 		/// <summary>
+		/// Name of fluent mapping extensions class (per-entity mapping extension methods).
+		/// </summary>
+		public const string FLUENT_MAPPING_EXTENSIONS_CLASS              = "FluentMappingExtensions";
+		/// <summary>
+		/// Method name prefix for per-entity fluent mapping extension methods.
+		/// Entity class name is appended after this prefix.
+		/// </summary>
+		public const string FLUENT_MAPPING_METHOD_PREFIX                 = "Map";
+
+		/// <summary>
 		/// Async method suffix.
 		/// </summary>
 		public const string ASYNC_SUFFIX                                 = "Async";

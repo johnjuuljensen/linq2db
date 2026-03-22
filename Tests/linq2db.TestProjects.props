@@ -15,6 +15,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Source\LinqToDB.Extensions\LinqToDB.Extensions.csproj" />
+		<ProjectReference Include="..\..\Source\LinqToDB.Scaffold\LinqToDB.Scaffold.csproj" />
 		<ProjectReference Include="..\FSharp\Tests.FSharp.fsproj" />
 		<ProjectReference Include="..\Base\Tests.Base.csproj" />
 

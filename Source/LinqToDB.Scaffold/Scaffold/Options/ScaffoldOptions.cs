@@ -70,6 +70,7 @@ namespace LinqToDB.Scaffold
 			options.DataModel.GeneratePrecision                              = false;
 			options.DataModel.GenerateScale                                  = false;
 			options.DataModel.FluentEntityTypeHelpers                        = [];
+			options.DataModel.GenerateFluentMappingPerEntity                 = false;
 			options.DataModel.IncludeDatabaseInfo                            = false;
 			options.DataModel.HasDefaultConstructor                          = true;
 			options.DataModel.HasConfigurationConstructor                    = true;
