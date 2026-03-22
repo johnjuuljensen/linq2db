@@ -56,6 +56,8 @@ namespace LinqToDB.CodeModel
 
 		// generate NRT annotations
 		private readonly bool                                                                   _useNRT;
+		// use table layout (column alignment) for properties and attributes
+		private readonly bool                                                                   _alignColumns;
 		/// <summary>
 		/// List of parent identifiers (namespaces and parent/current classes) for current position.
 		/// </summary>
@@ -91,6 +93,7 @@ namespace LinqToDB.CodeModel
 			string                                                                 newLine,
 			string                                                                 indent,
 			bool                                                                   useNRT,
+			bool                                                                   alignColumns,
 			IReadOnlyDictionary<CodeIdentifier, ISet<IEnumerable<CodeIdentifier>>> knownTypes,
 			IReadOnlyDictionary<IEnumerable<CodeIdentifier>, ISet<CodeIdentifier>> scopedNames,
 			IReadOnlyDictionary<IEnumerable<CodeIdentifier>, ISet<CodeIdentifier>> scopedTypes)
@@ -98,6 +101,7 @@ namespace LinqToDB.CodeModel
 		{
 			_languageProvider = languageProvider;
 			_useNRT           = useNRT;
+			_alignColumns     = alignColumns;
 			_knownTypes       = knownTypes;
 			_scopedNames      = scopedNames;
 			_scopedTypes      = scopedTypes;
@@ -692,7 +696,7 @@ namespace LinqToDB.CodeModel
 
 		protected override void Visit(PropertyGroup group)
 		{
-			if (group.TableLayout)
+			if (group.TableLayout && _alignColumns)
 				WritePropertiesAsTable(group.Members);
 			else
 				WriteNewLineDelimitedList(group.Members);

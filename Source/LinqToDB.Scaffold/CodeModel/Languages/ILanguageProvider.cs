@@ -97,6 +97,7 @@ namespace LinqToDB.CodeModel
 		/// <param name="newLine">Newline character sequence.</param>
 		/// <param name="indent">Single indent unit character sequence.</param>
 		/// <param name="useNRT">Indicates wether NRT annotations should be emmited by code generator.</param>
+		/// <param name="alignColumns">Indicates whether generated code should use column alignment (table layout) for properties and attributes.</param>
 		/// <param name="knownTypes">Information about namespaces, that include types with specific name.</param>
 		/// <param name="scopedNames">Information about names (type name, namespace or type member) in specific naming scopes.</param>
 		/// <param name="scopedTypes">Information about type names (type name and namespace) in specific naming scopes.</param>
@@ -105,6 +106,7 @@ namespace LinqToDB.CodeModel
 			string                                                                 newLine,
 			string                                                                 indent,
 			bool                                                                   useNRT,
+			bool                                                                   alignColumns,
 			IReadOnlyDictionary<CodeIdentifier, ISet<IEnumerable<CodeIdentifier>>> knownTypes,
 			IReadOnlyDictionary<IEnumerable<CodeIdentifier>, ISet<CodeIdentifier>> scopedNames,
 			IReadOnlyDictionary<IEnumerable<CodeIdentifier>, ISet<CodeIdentifier>> scopedTypes);

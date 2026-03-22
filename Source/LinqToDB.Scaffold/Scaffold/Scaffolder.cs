@@ -151,6 +151,7 @@ namespace LinqToDB.Scaffold
 					_options.CodeGeneration.NewLine,
 					_options.CodeGeneration.Indent,
 					_options.CodeGeneration.EnableNullableReferenceTypes,
+					_options.CodeGeneration.AlignColumnsInOutput,
 					nameScopes.TypesNamespaces,
 					nameScopes.ScopesWithNames,
 					nameScopes.ScopesWithTypeNames);

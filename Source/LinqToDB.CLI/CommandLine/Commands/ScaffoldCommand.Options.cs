@@ -375,6 +375,20 @@ Customization using compiled assembly has several requirements:
 					null,
 					_defaultOptions.CodeGeneration.Namespace != null ? new[] { _defaultOptions.CodeGeneration.Namespace } : null,
 					_t4ModeOptions .CodeGeneration.Namespace != null ? new[] { _t4ModeOptions .CodeGeneration.Namespace } : null);
+
+			/// <summary>
+			/// Column alignment in generated code option.
+			/// </summary>
+			public static readonly CliOption AlignColumns = new BooleanCliOption(
+					"align-columns",
+					null,
+					false,
+					"align columns in generated code (property types, names, attribute parameters) with spaces",
+					"When enabled, generated code uses table-like layout where property types, names, and attribute parameters are padded with spaces to align into columns. Disabling this produces more compact code that results in cleaner diffs when columns are added or renamed.",
+					null,
+					null,
+					_defaultOptions.CodeGeneration.AlignColumnsInOutput,
+					_t4ModeOptions.CodeGeneration.AlignColumnsInOutput);
 		}
 
 		/// <summary>
