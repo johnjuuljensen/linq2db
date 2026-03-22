@@ -23,6 +23,10 @@ namespace LinqToDB.DataModel
 		/// </summary>
 		DataModelOptions      Options                       { get; }
 		/// <summary>
+		/// Gets whether to use table layout (column alignment) for member groups.
+		/// </summary>
+		bool                  TableLayout                   { get; }
+		/// <summary>
 		/// Gets AST builder.
 		/// </summary>
 		CodeBuilder           AST                           { get; }

@@ -110,7 +110,6 @@ namespace LinqToDB.CodeModel
 			string                                                                 newLine,
 			string                                                                 indent,
 			bool                                                                   useNRT,
-			bool                                                                   alignColumns,
 			IReadOnlyDictionary<CodeIdentifier, ISet<IEnumerable<CodeIdentifier>>> knownTypes,
 			IReadOnlyDictionary<IEnumerable<CodeIdentifier>, ISet<CodeIdentifier>> scopedNames,
 			IReadOnlyDictionary<IEnumerable<CodeIdentifier>, ISet<CodeIdentifier>> scopedTypes)
@@ -120,7 +119,6 @@ namespace LinqToDB.CodeModel
 				newLine,
 				indent,
 				useNRT,
-				alignColumns,
 				knownTypes,
 				scopedNames,
 				scopedTypes);

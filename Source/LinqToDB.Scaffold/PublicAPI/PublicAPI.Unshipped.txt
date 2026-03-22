@@ -1,5 +1,4 @@
-﻿#nullable enable
-LinqToDB.Scaffold.CodeGenerationOptions.AlignColumnsInOutput.get -> bool
-LinqToDB.Scaffold.CodeGenerationOptions.AlignColumnsInOutput.set -> void
-*REMOVED*LinqToDB.CodeModel.ILanguageProvider.GetCodeGenerator(string! newLine, string! indent, bool useNRT, System.Collections.Generic.IReadOnlyDictionary<LinqToDB.CodeModel.CodeIdentifier!, System.Collections.Generic.ISet<System.Collections.Generic.IEnumerable<LinqToDB.CodeModel.CodeIdentifier!>!>!>! knownTypes, System.Collections.Generic.IReadOnlyDictionary<System.Collections.Generic.IEnumerable<LinqToDB.CodeModel.CodeIdentifier!>!, System.Collections.Generic.ISet<LinqToDB.CodeModel.CodeIdentifier!>!>! scopedNames, System.Collections.Generic.IReadOnlyDictionary<System.Collections.Generic.IEnumerable<LinqToDB.CodeModel.CodeIdentifier!>!, System.Collections.Generic.ISet<LinqToDB.CodeModel.CodeIdentifier!>!>! scopedTypes) -> LinqToDB.CodeModel.CodeGenerationVisitor!
-LinqToDB.CodeModel.ILanguageProvider.GetCodeGenerator(string! newLine, string! indent, bool useNRT, bool alignColumns, System.Collections.Generic.IReadOnlyDictionary<LinqToDB.CodeModel.CodeIdentifier!, System.Collections.Generic.ISet<System.Collections.Generic.IEnumerable<LinqToDB.CodeModel.CodeIdentifier!>!>!>! knownTypes, System.Collections.Generic.IReadOnlyDictionary<System.Collections.Generic.IEnumerable<LinqToDB.CodeModel.CodeIdentifier!>!, System.Collections.Generic.ISet<LinqToDB.CodeModel.CodeIdentifier!>!>! scopedNames, System.Collections.Generic.IReadOnlyDictionary<System.Collections.Generic.IEnumerable<LinqToDB.CodeModel.CodeIdentifier!>!, System.Collections.Generic.ISet<LinqToDB.CodeModel.CodeIdentifier!>!>! scopedTypes) -> LinqToDB.CodeModel.CodeGenerationVisitor!
+#nullable enable
+LinqToDB.Scaffold.CodeGenerationOptions.TableLayout.get -> bool
+LinqToDB.Scaffold.CodeGenerationOptions.TableLayout.set -> void
+LinqToDB.DataModel.IDataModelGenerationContext.TableLayout.get -> bool

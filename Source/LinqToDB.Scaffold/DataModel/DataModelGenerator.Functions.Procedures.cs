@@ -467,7 +467,7 @@ namespace LinqToDB.DataModel
 				{
 					// as async methods cannot have ref/out parameters, we generate result class to contain out/ref/return parameters and result set
 					var resultClassBuilder = context.DefineClass(classes, asyncResult.Class);
-					var properties         = resultClassBuilder.Properties(true);
+					var properties         = resultClassBuilder.Properties(context.TableLayout);
 					var initializers       = new CodeAssignmentStatement[parameterRebinds.Length + 1];
 
 					asyncResult.MainResult.Type = returnType;

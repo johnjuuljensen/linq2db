@@ -46,7 +46,7 @@ namespace LinqToDB.DataModel
 			var entityBuilder = context.GetEntityBuilder(entity);
 
 			// generate colum properties
-			var columnsGroup = entityBuilder.Properties(true);
+			var columnsGroup = entityBuilder.Properties(context.TableLayout);
 			foreach (var columnModel in entity.Columns)
 			{
 				var columnBuilder = context.DefineProperty(columnsGroup, columnModel.Property);

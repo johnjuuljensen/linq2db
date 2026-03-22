@@ -103,13 +103,13 @@ namespace LinqToDB.Scaffold
 		public string? Namespace { get; set; } = "DataModel";
 
 		/// <summary>
-		/// Enables alignment of columns in generated code (e.g. property types, names, and attribute parameters are padded with spaces to form aligned columns).
+		/// Enables table layout for generated code members (e.g. property types, names, and attribute parameters are padded with spaces to form aligned columns).
 		/// When disabled, generated code uses minimal spacing without alignment, which produces cleaner diffs.
 		/// <list type="bullet">
 		/// <item>Default: <see langword="true" /></item>
 		/// <item>In T4 compability mode: <see langword="true" /></item>
 		/// </list>
 		/// </summary>
-		public bool AlignColumnsInOutput { get; set; } = true;
+		public bool TableLayout { get; set; } = true;
 	}
 }

@@ -65,6 +65,7 @@ namespace LinqToDB.DataModel
 		{
 			IDataModelGenerationContext context = new DataModelGenerationContext(
 				_options.DataModel,
+				_options.CodeGeneration.TableLayout,
 				_languageProvider,
 				_dataModel,
 				_sqlBuilder,
@@ -99,7 +100,7 @@ namespace LinqToDB.DataModel
 						.New(context.AST.Name(DataModelConstants.SCHEMAS_INIT_METHOD))
 							.SetModifiers(Modifiers.Public);
 
-				contextSchemaProperties = context.SchemasContextRegion.Properties(true);
+				contextSchemaProperties = context.SchemasContextRegion.Properties(context.TableLayout);
 			}
 
 			// generate classes for entities from main data context

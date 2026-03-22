@@ -50,7 +50,7 @@ namespace LinqToDB.CommandLine
 			AddOption(_codeGenerationOptions, CodeGen.ConflictingIdentifiers);
 			AddOption(_codeGenerationOptions, CodeGen.CustomHeader);
 			AddOption(_codeGenerationOptions, CodeGen.Namespace);
-			AddOption(_codeGenerationOptions, CodeGen.AlignColumns);
+			AddOption(_codeGenerationOptions, CodeGen.TableLayout);
 
 			// data model options
 			AddOption(_dataModelOptions, DataModel.GenerateDbName);

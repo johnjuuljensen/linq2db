@@ -63,7 +63,7 @@ namespace LinqToDB.DataModel
 
 			var resultClassBuilder = context.DefineClass(classes, model.Class);
 
-			var columnsGroup = resultClassBuilder.Properties(true);
+			var columnsGroup = resultClassBuilder.Properties(context.TableLayout);
 
 			for (var i = 0; i < model.Columns.Count; i++)
 			{
