@@ -530,8 +530,7 @@ namespace LinqToDB.Metadata
 				context.StaticInitializer.Append(
 					context.AST.Call(
 						_builderVar.Reference,
-						method.Method.Name)
-					.NewLine());
+						method.Method.Name));
 			}
 
 			// add non-entity attributes (e.g. extension methods) still in static initializer
