@@ -168,6 +168,18 @@ namespace LinqToDB.Scaffold
 		/// </list>
 		/// </summary>
 		public IReadOnlyCollection<string>? FluentEntityTypeHelpers { get; set; } = [];
+
+		/// <summary>
+		/// When <see langword="true" /> and <see cref="Metadata"/> is <see cref="MetadataSource.FluentMapping"/>,
+		/// generates a separate static extension method on <see cref="Mapping.FluentMappingBuilder"/> for each entity
+		/// instead of placing all mapping configuration inline in the data context static constructor.
+		/// The data context static constructor will call each per-entity extension method.
+		/// <list type="bullet">
+		/// <item>Default: <see langword="false"/></item>
+		/// <item>In T4 compability mode: <see langword="false"/></item>
+		/// </list>
+		/// </summary>
+		public bool GenerateFluentMappingPerEntity { get; set; }
 		#endregion
 
 		#region Context
