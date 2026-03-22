@@ -56,6 +56,8 @@ namespace LinqToDB.CodeModel
 
 		// generate NRT annotations
 		private readonly bool                                                                   _useNRT;
+		// entity property layout format
+		private readonly Scaffold.EntityLayout                                                  _entityLayout;
 		/// <summary>
 		/// List of parent identifiers (namespaces and parent/current classes) for current position.
 		/// </summary>
@@ -91,6 +93,7 @@ namespace LinqToDB.CodeModel
 			string                                                                 newLine,
 			string                                                                 indent,
 			bool                                                                   useNRT,
+			Scaffold.EntityLayout                                                  entityLayout,
 			IReadOnlyDictionary<CodeIdentifier, ISet<IEnumerable<CodeIdentifier>>> knownTypes,
 			IReadOnlyDictionary<IEnumerable<CodeIdentifier>, ISet<CodeIdentifier>> scopedNames,
 			IReadOnlyDictionary<IEnumerable<CodeIdentifier>, ISet<CodeIdentifier>> scopedTypes)
@@ -98,6 +101,7 @@ namespace LinqToDB.CodeModel
 		{
 			_languageProvider = languageProvider;
 			_useNRT           = useNRT;
+			_entityLayout     = entityLayout;
 			_knownTypes       = knownTypes;
 			_scopedNames      = scopedNames;
 			_scopedTypes      = scopedTypes;
@@ -695,7 +699,20 @@ namespace LinqToDB.CodeModel
 			if (group.TableLayout)
 				WritePropertiesAsTable(group.Members);
 			else
-				WriteNewLineDelimitedList(group.Members);
+			{
+				switch (_entityLayout)
+				{
+					case Scaffold.EntityLayout.ListCompact:
+						WritePropertiesCompact(group.Members, dense: false);
+						break;
+					case Scaffold.EntityLayout.ListDense:
+						WritePropertiesCompact(group.Members, dense: true);
+						break;
+					default:
+						WriteNewLineDelimitedList(group.Members);
+						break;
+				}
+			}
 		}
 
 		protected override void Visit(MethodGroup group)
@@ -1504,6 +1521,119 @@ namespace LinqToDB.CodeModel
 			}
 
 			return tableBuilder.GetRows();
+		}
+
+		/// <summary>
+		/// Generate code for property group using compact/dense list layout.
+		/// Compact: inline attributes on line above property, blank line between properties.
+		/// Dense: inline attributes on same line as property, no blank lines.
+		/// </summary>
+		/// <param name="properties">Property group.</param>
+		/// <param name="dense">When true, attributes on same line and no blank lines between properties.</param>
+		private void WritePropertiesCompact(IReadOnlyList<CodeProperty> properties, bool dense)
+		{
+			for (var i = 0; i < properties.Count; i++)
+			{
+				var property = properties[i];
+
+				if (i > 0 && !dense)
+					WriteLine();
+
+				if (property.XmlDoc != null)
+					Visit(property.XmlDoc);
+
+				// render attributes inline: [Attr1, Attr2]
+				if (property.CustomAttributes.Count > 0)
+				{
+					WriteCustomAttributes(property.CustomAttributes, true);
+
+					if (!dense)
+						WriteLine();
+					else
+						Write(' ');
+				}
+
+				WriteModifiers(property.Attributes);
+				Visit(property.Type);
+				Write(' ');
+				Visit(property.Name);
+
+				var autoProperty = property.Getter == null && property.Setter == null;
+				var withBrackets = autoProperty || property.Setter != null;
+				var multiline    = withBrackets && !autoProperty;
+
+				if (multiline)
+					WriteLine();
+				else
+					Write(' ');
+
+				if (withBrackets)
+					OpenBlock(!multiline);
+
+				if (property.HasGetter)
+				{
+					if (property.Getter == null)
+						Write("get;");
+					else
+					{
+						if (property.HasSetter)
+						{
+							Write("get");
+							if (property.Getter.Items.Count == 1)
+								Write(" =>");
+						}
+						else
+							Write(" =>");
+
+						WriteMethodBodyBlock(property.Getter, true, false, true, !multiline);
+					}
+				}
+
+				if (property.HasSetter)
+				{
+					if (!multiline && property.HasGetter)
+						Write(' ');
+
+					WriteModifiers(property.SetterModifiers);
+					if (property.Setter == null)
+						Write("set;");
+					else
+					{
+						Write("set");
+						if (property.Setter.Items.Count == 1)
+							Write(" =>");
+
+						WriteMethodBodyBlock(property.Setter, true, true, true, !multiline);
+					}
+				}
+
+				if (multiline)
+					DecreaseIdent();
+
+				if (withBrackets)
+				{
+					if (!multiline)
+						Write(' ');
+					Write('}');
+				}
+
+				if (property.Initializer != null)
+				{
+					Write(" = ");
+					Visit(property.Initializer);
+					Write(';');
+				}
+				else if (_useNRT && autoProperty && !property.Type.Type.IsNullable && !property.Type.Type.IsValueType)
+					Write(" = null!;");
+
+				if (property.TrailingComment != null)
+				{
+					Write(' ');
+					Visit(property.TrailingComment);
+				}
+				else
+					WriteLine();
+			}
 		}
 
 		// constants for property group table layout columns

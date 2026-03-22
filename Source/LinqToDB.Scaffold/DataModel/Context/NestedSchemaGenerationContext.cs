@@ -36,7 +36,7 @@ namespace LinqToDB.DataModel
 		ILanguageProvider     IDataModelGenerationContext.LanguageProvider              => _parentContext.LanguageProvider;
 		DatabaseModel         IDataModelGenerationContext.Model                         => _parentContext.Model;
 		DataModelOptions      IDataModelGenerationContext.Options                       => _parentContext.Options;
-		bool                  IDataModelGenerationContext.TableLayout                   => _parentContext.TableLayout;
+		EntityLayout          IDataModelGenerationContext.EntityLayout                  => _parentContext.EntityLayout;
 		CodeBuilder           IDataModelGenerationContext.AST                           => _parentContext.AST;
 		IMetadataBuilder?     IDataModelGenerationContext.MetadataBuilder               => _parentContext.MetadataBuilder;
 
@@ -57,7 +57,7 @@ namespace LinqToDB.DataModel
 		CodeClass             IDataModelGenerationContext.TableFunctionsClass           => _schemaContext.Type;
 
 		MethodGroup           IDataModelGenerationContext.FindExtensionsGroup           => _findExtensions ??= _schemaWrapper.Regions().New(DataModelConstants.FIND_METHODS_REGION).Methods(false);
-		PropertyGroup         IDataModelGenerationContext.ContextProperties             => _contextProperties ??= _schemaContext.Properties(_parentContext.TableLayout);
+		PropertyGroup         IDataModelGenerationContext.ContextProperties             => _contextProperties ??= _schemaContext.Properties(_parentContext.EntityLayout == EntityLayout.Table);
 		SchemaModelBase       IDataModelGenerationContext.Schema                        => _schema;
 
 		IDataModelGenerationContext IDataModelGenerationContext.GetChildContext     (AdditionalSchemaModel schema                                     ) => throw new InvalidOperationException();

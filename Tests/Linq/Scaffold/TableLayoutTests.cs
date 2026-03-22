@@ -2,19 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 
 using LinqToDB.CodeModel;
+using LinqToDB.Scaffold;
 
 using NUnit.Framework;
 
 namespace Tests.Scaffold
 {
 	[TestFixture]
-	public class TableLayoutTests : TestBase
+	public class EntityLayoutTests : TestBase
 	{
-		/// <summary>
-		/// Generates source code for a class with two properties of different type/name lengths,
-		/// using the specified <paramref name="tableLayout"/> setting on the property group.
-		/// </summary>
-		private static string GenerateProperties(bool tableLayout)
+		private static string GenerateProperties(EntityLayout layout)
 		{
 			var lang    = LanguageProviders.CSharp;
 			var builder = lang.ASTBuilder;
@@ -27,9 +24,8 @@ namespace Tests.Scaffold
 			var cls        = classGroup.New(new CodeIdentifier("TestEntity", true));
 			cls.SetModifiers(Modifiers.Public);
 
-			var props = cls.Properties(tableLayout);
+			var props = cls.Properties(layout == EntityLayout.Table);
 
-			// short type + long name vs long type + short name — alignment padding is visible
 			props.New(new CodeIdentifier("Id", true), WellKnownTypes.System.Int32)
 				.SetModifiers(Modifiers.Public)
 				.Default(true);
@@ -44,6 +40,7 @@ namespace Tests.Scaffold
 				"\n",
 				"\t",
 				useNRT: false,
+				entityLayout: layout,
 				emptyDict1,
 				emptyDict2,
 				emptyDict2);
@@ -52,52 +49,76 @@ namespace Tests.Scaffold
 			return codeGenerator.GetResult();
 		}
 
-		[Test]
-		public void TableLayout_ContainsPaddedColumns()
+		private static string[] GetPropertyLines(string source)
 		{
-			var result = GenerateProperties(tableLayout: true);
-
-			var lines = result.Split('\n')
+			return source.Split('\n')
 				.Select(l => l.TrimEnd('\r'))
-				.Where(l => l.Contains("{ get;"))
+				.Where(l => l.Contains("get;"))
 				.ToArray();
-
-			Assert.That(lines, Has.Length.EqualTo(2), "Expected 2 property lines");
-
-			var intLine = lines.First(l => l.Contains("Id"));
-
-			// In table layout, "int" is padded with extra spaces to align with "string":
-			// "public int    Id               { get; set; }"
-			// "public string LongPropertyName { get; set; }"
-			Assert.That(intLine, Does.Match(@"int\s{2,}"), "int should be padded with extra spaces in table layout mode");
 		}
 
 		[Test]
-		public void NoTableLayout_HasNoPadding()
+		public void Table_ContainsPaddedColumns()
 		{
-			var result = GenerateProperties(tableLayout: false);
+			var lines = GetPropertyLines(GenerateProperties(EntityLayout.Table));
 
-			var lines = result.Split('\n')
-				.Select(l => l.TrimEnd('\r'))
-				.Where(l => l.Contains("{ get;"))
-				.ToArray();
-
-			Assert.That(lines, Has.Length.EqualTo(2), "Expected 2 property lines");
-
-			var intLine = lines.First(l => l.Contains("Id"));
-
-			// Without table layout, "int" is immediately followed by a single space then "Id"
-			Assert.That(intLine, Does.Contain("int Id"), "int should be followed by single space + Id without table layout");
-			Assert.That(intLine, Does.Not.Match(@"int\s{2,}Id"), "int should not have extra padding before Id without table layout");
+			Assert.That(lines, Has.Length.EqualTo(2));
+			Assert.That(lines.First(l => l.Contains("Id")), Does.Match(@"int\s{2,}"), "int should be padded in table layout");
 		}
 
 		[Test]
-		public void TableLayoutOnAndOff_ProduceDifferentOutput()
+		public void List_HasNoPaddingAndBlankLines()
 		{
-			var aligned   = GenerateProperties(tableLayout: true);
-			var unaligned = GenerateProperties(tableLayout: false);
+			var result = GenerateProperties(EntityLayout.List);
+			var lines  = GetPropertyLines(result);
 
-			Assert.That(aligned, Is.Not.EqualTo(unaligned), "Table layout on and off should produce different output when properties have varying type/name lengths");
+			Assert.That(lines, Has.Length.EqualTo(2));
+			Assert.That(lines.First(l => l.Contains("Id")), Does.Contain("int Id"));
+			Assert.That(lines.First(l => l.Contains("Id")), Does.Not.Match(@"int\s{2,}Id"));
+		}
+
+		[Test]
+		public void ListCompact_HasInlineAttributesAndBlankLines()
+		{
+			var result = GenerateProperties(EntityLayout.ListCompact);
+			var lines  = GetPropertyLines(result);
+
+			Assert.That(lines, Has.Length.EqualTo(2));
+			Assert.That(lines[0], Does.Contain("int Id"));
+
+			// blank line between properties
+			var allLines = result.Split('\n').Select(l => l.TrimEnd('\r')).ToArray();
+			var idIdx    = System.Array.FindIndex(allLines, l => l.Contains("int Id"));
+			var nameIdx  = System.Array.FindIndex(allLines, l => l.Contains("LongPropertyName"));
+			Assert.That(nameIdx - idIdx, Is.GreaterThan(1), "Should have blank line between properties in list-compact");
+		}
+
+		[Test]
+		public void ListDense_HasNoBlankLines()
+		{
+			var result = GenerateProperties(EntityLayout.ListDense);
+			var lines  = GetPropertyLines(result);
+
+			Assert.That(lines, Has.Length.EqualTo(2));
+
+			// no blank lines between properties
+			var allLines = result.Split('\n').Select(l => l.TrimEnd('\r')).ToArray();
+			var idIdx    = System.Array.FindIndex(allLines, l => l.Contains("int Id"));
+			var nameIdx  = System.Array.FindIndex(allLines, l => l.Contains("LongPropertyName"));
+			Assert.That(nameIdx - idIdx, Is.EqualTo(1), "Should have no blank lines between properties in list-dense");
+		}
+
+		[Test]
+		public void AllLayouts_ProduceDifferentOutput()
+		{
+			var table       = GenerateProperties(EntityLayout.Table);
+			var list        = GenerateProperties(EntityLayout.List);
+			var listCompact = GenerateProperties(EntityLayout.ListCompact);
+			var listDense   = GenerateProperties(EntityLayout.ListDense);
+
+			Assert.That(table, Is.Not.EqualTo(list));
+			Assert.That(listCompact, Is.Not.EqualTo(listDense));
+			Assert.That(table, Is.Not.EqualTo(listDense));
 		}
 	}
 }

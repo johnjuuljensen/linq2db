@@ -23,9 +23,9 @@ namespace LinqToDB.DataModel
 		/// </summary>
 		DataModelOptions      Options                       { get; }
 		/// <summary>
-		/// Gets whether to use table layout (column alignment) for member groups.
+		/// Gets the entity layout format for generated properties.
 		/// </summary>
-		bool                  TableLayout                   { get; }
+		EntityLayout          EntityLayout                  { get; }
 		/// <summary>
 		/// Gets AST builder.
 		/// </summary>

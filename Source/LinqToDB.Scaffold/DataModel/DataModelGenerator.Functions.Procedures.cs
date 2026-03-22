@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 
 using LinqToDB.CodeModel;
+using LinqToDB.Scaffold;
 using LinqToDB.Schema;
 
 namespace LinqToDB.DataModel
@@ -467,7 +468,7 @@ namespace LinqToDB.DataModel
 				{
 					// as async methods cannot have ref/out parameters, we generate result class to contain out/ref/return parameters and result set
 					var resultClassBuilder = context.DefineClass(classes, asyncResult.Class);
-					var properties         = resultClassBuilder.Properties(context.TableLayout);
+					var properties         = resultClassBuilder.Properties(context.EntityLayout == EntityLayout.Table);
 					var initializers       = new CodeAssignmentStatement[parameterRebinds.Length + 1];
 
 					asyncResult.MainResult.Type = returnType;

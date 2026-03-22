@@ -15,7 +15,7 @@ namespace LinqToDB.DataModel
 	internal sealed class DataModelGenerationContext : IDataModelGenerationContext
 	{
 		private readonly DataModelOptions                                               _options;
-		private readonly bool                                                           _tableLayout;
+		private readonly EntityLayout                                                   _entityLayout;
 		private readonly ILanguageProvider                                              _languageProvider;
 		private readonly ISqlBuilder                                                    _sqlBuilder;
 		private readonly DatabaseModel                                                  _model;
@@ -48,7 +48,7 @@ namespace LinqToDB.DataModel
 
 		public DataModelGenerationContext(
 			DataModelOptions     options,
-			bool                 tableLayout,
+			EntityLayout         entityLayout,
 			ILanguageProvider    languageProvider,
 			DatabaseModel        model,
 			ISqlBuilder          sqlBuilder,
@@ -56,16 +56,16 @@ namespace LinqToDB.DataModel
 			Func<string, string> parameterNameNormalizer)
 		{
 			_options                 = options;
-			_tableLayout             = tableLayout;
+			_entityLayout            = entityLayout;
 			_languageProvider        = languageProvider;
 			_model                   = model;
 			_sqlBuilder              = sqlBuilder;
 			_metadataBuilder         = metadataBuilder;
 			_parameterNameNormalizer = parameterNameNormalizer;
 			_dataContextClass        = this.DefineFileClass(_model.DataContext.Class);
-			_staticProperties        = _dataContextClass.Properties(_tableLayout);
+			_staticProperties        = _dataContextClass.Properties(_entityLayout == EntityLayout.Table);
 			_constructors            = _dataContextClass.Constructors();
-			_partialMethods          = _dataContextClass.Methods(_tableLayout);
+			_partialMethods          = _dataContextClass.Methods(_entityLayout == EntityLayout.Table);
 
 			// check wether custom data context is inherited from DataConnection or DataContext
 			var contextIsDataConnection    = _model.DataContext.Class.BaseType != null
@@ -79,7 +79,7 @@ namespace LinqToDB.DataModel
 		ILanguageProvider     IDataModelGenerationContext.LanguageProvider              => _languageProvider;
 		DatabaseModel         IDataModelGenerationContext.Model                         => _model;
 		DataModelOptions      IDataModelGenerationContext.Options                       => _options;
-		bool                  IDataModelGenerationContext.TableLayout                   => _tableLayout;
+		EntityLayout          IDataModelGenerationContext.EntityLayout                  => _entityLayout;
 		CodeBuilder           IDataModelGenerationContext.AST                           => _languageProvider.ASTBuilder;
 		IMetadataBuilder?     IDataModelGenerationContext.MetadataBuilder               => _metadataBuilder;
 
@@ -97,7 +97,7 @@ namespace LinqToDB.DataModel
 		RegionBuilder         IDataModelGenerationContext.SchemasContextRegion          => _schemas ??= _dataContextClass.Regions().New(DataModelConstants.SCHEMAS_CONTEXT_REGION);
 		IEnumerable<CodeFile> IDataModelGenerationContext.Files                         => _files.Values.Select(_ => _.File);
 		MethodGroup           IDataModelGenerationContext.FindExtensionsGroup           => _findExtensions ??= GetExtensionsClass().Regions().New(DataModelConstants.FIND_METHODS_REGION).Methods(false);
-		PropertyGroup         IDataModelGenerationContext.ContextProperties             => _contextProperties ??= _dataContextClass.Properties(_tableLayout);
+		PropertyGroup         IDataModelGenerationContext.ContextProperties             => _contextProperties ??= _dataContextClass.Properties(_entityLayout == EntityLayout.Table);
 		BlockBuilder          IDataModelGenerationContext.StaticInitializer             => _cctorBody ??= _dataContextClass.TypeInitializer().Body();
 		bool                  IDataModelGenerationContext.HasContextMappingSchema       => _mappingSchema != null;
 

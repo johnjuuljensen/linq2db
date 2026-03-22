@@ -377,18 +377,26 @@ Customization using compiled assembly has several requirements:
 					_t4ModeOptions .CodeGeneration.Namespace != null ? new[] { _t4ModeOptions .CodeGeneration.Namespace } : null);
 
 			/// <summary>
-			/// Table layout for generated code option.
+			/// Entity layout format option.
 			/// </summary>
-			public static readonly CliOption TableLayout = new BooleanCliOption(
-					"table-layout",
+			public static readonly CliOption EntityLayout = new StringEnumCliOption(
+					"entity-layout",
 					null,
 					false,
-					"use table layout for generated code (property types, names, attribute parameters are padded with spaces to form aligned columns)",
-					"When enabled, generated code uses table-like layout where property types, names, and attribute parameters are padded with spaces to align into columns. Disabling this produces more compact code that results in cleaner diffs when columns are added or renamed.",
+					false,
+					"layout format for generated entity properties",
+					@"Controls how entity properties and their attributes are formatted in generated code:
+  table        : properties are padded with spaces to form aligned columns (default)
+  list         : each property on its own line, attributes on separate lines above, blank line between properties
+  list-compact : attributes rendered inline above property, blank line between properties
+  list-dense   : attributes rendered inline on same line as property, no blank lines between properties",
 					null,
 					null,
-					_defaultOptions.CodeGeneration.TableLayout,
-					_t4ModeOptions.CodeGeneration.TableLayout);
+					false,
+					new (true , true , "table"       , "properties padded to form aligned columns (default)"),
+					new (false, false, "list"         , "properties on own lines, attributes on separate lines above"),
+					new (false, false, "list-compact" , "inline attributes above property, blank line between properties"),
+					new (false, false, "list-dense"   , "inline attributes on same line, no blank lines between properties"));
 		}
 
 		/// <summary>
