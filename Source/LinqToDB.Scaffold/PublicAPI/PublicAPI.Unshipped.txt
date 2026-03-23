@@ -1,1 +1,11 @@
-﻿#nullable enable
+#nullable enable
+LinqToDB.Scaffold.EntityLayout
+LinqToDB.Scaffold.EntityLayout.Table = 0 -> LinqToDB.Scaffold.EntityLayout
+LinqToDB.Scaffold.EntityLayout.List = 1 -> LinqToDB.Scaffold.EntityLayout
+LinqToDB.Scaffold.EntityLayout.ListCompact = 2 -> LinqToDB.Scaffold.EntityLayout
+LinqToDB.Scaffold.EntityLayout.ListDense = 3 -> LinqToDB.Scaffold.EntityLayout
+LinqToDB.Scaffold.CodeGenerationOptions.EntityLayout.get -> LinqToDB.Scaffold.EntityLayout
+LinqToDB.Scaffold.CodeGenerationOptions.EntityLayout.set -> void
+LinqToDB.DataModel.IDataModelGenerationContext.EntityLayout.get -> LinqToDB.Scaffold.EntityLayout
+*REMOVED*LinqToDB.CodeModel.ILanguageProvider.GetCodeGenerator(string! newLine, string! indent, bool useNRT, System.Collections.Generic.IReadOnlyDictionary<LinqToDB.CodeModel.CodeIdentifier!, System.Collections.Generic.ISet<System.Collections.Generic.IEnumerable<LinqToDB.CodeModel.CodeIdentifier!>!>!>! knownTypes, System.Collections.Generic.IReadOnlyDictionary<System.Collections.Generic.IEnumerable<LinqToDB.CodeModel.CodeIdentifier!>!, System.Collections.Generic.ISet<LinqToDB.CodeModel.CodeIdentifier!>!>! scopedNames, System.Collections.Generic.IReadOnlyDictionary<System.Collections.Generic.IEnumerable<LinqToDB.CodeModel.CodeIdentifier!>!, System.Collections.Generic.ISet<LinqToDB.CodeModel.CodeIdentifier!>!>! scopedTypes) -> LinqToDB.CodeModel.CodeGenerationVisitor!
+LinqToDB.CodeModel.ILanguageProvider.GetCodeGenerator(string! newLine, string! indent, bool useNRT, LinqToDB.Scaffold.EntityLayout entityLayout, System.Collections.Generic.IReadOnlyDictionary<LinqToDB.CodeModel.CodeIdentifier!, System.Collections.Generic.ISet<System.Collections.Generic.IEnumerable<LinqToDB.CodeModel.CodeIdentifier!>!>!>! knownTypes, System.Collections.Generic.IReadOnlyDictionary<System.Collections.Generic.IEnumerable<LinqToDB.CodeModel.CodeIdentifier!>!, System.Collections.Generic.ISet<LinqToDB.CodeModel.CodeIdentifier!>!>! scopedNames, System.Collections.Generic.IReadOnlyDictionary<System.Collections.Generic.IEnumerable<LinqToDB.CodeModel.CodeIdentifier!>!, System.Collections.Generic.ISet<LinqToDB.CodeModel.CodeIdentifier!>!>! scopedTypes) -> LinqToDB.CodeModel.CodeGenerationVisitor!

@@ -23,6 +23,10 @@ namespace LinqToDB.DataModel
 		/// </summary>
 		DataModelOptions      Options                       { get; }
 		/// <summary>
+		/// Gets the entity layout format for generated properties.
+		/// </summary>
+		EntityLayout          EntityLayout                  { get; }
+		/// <summary>
 		/// Gets AST builder.
 		/// </summary>
 		CodeBuilder           AST                           { get; }

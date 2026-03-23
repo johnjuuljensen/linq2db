@@ -101,5 +101,14 @@ namespace LinqToDB.Scaffold
 		/// </list>
 		/// </summary>
 		public string? Namespace { get; set; } = "DataModel";
+
+		/// <summary>
+		/// Gets or sets the layout format for generated entity properties.
+		/// <list type="bullet">
+		/// <item>Default: <see cref="EntityLayout.Table"/></item>
+		/// <item>In T4 compability mode: <see cref="EntityLayout.Table"/></item>
+		/// </list>
+		/// </summary>
+		public EntityLayout EntityLayout { get; set; } = EntityLayout.Table;
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using LinqToDB.CodeModel;
+using LinqToDB.Scaffold;
 
 namespace LinqToDB.DataModel
 {
@@ -50,7 +51,7 @@ namespace LinqToDB.DataModel
 				// generate custom record class for result tuple
 				// T4 generated this class inside of context class, here we move it to function region
 				var tupleClassBuilder = context.DefineClass(region.Classes(), function.ReturnTuple!.Class);
-				var tuplePropsRegion  = tupleClassBuilder.Properties(true);
+				var tuplePropsRegion  = tupleClassBuilder.Properties(context.EntityLayout == EntityLayout.Table);
 
 				// mapping expression tuple fields converters
 				var initializers = new CodeAssignmentStatement[function.ReturnTuple.Fields.Count];

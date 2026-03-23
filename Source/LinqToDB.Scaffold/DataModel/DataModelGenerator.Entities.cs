@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using LinqToDB.CodeModel;
+using LinqToDB.Scaffold;
 
 namespace LinqToDB.DataModel
 {
@@ -46,7 +47,7 @@ namespace LinqToDB.DataModel
 			var entityBuilder = context.GetEntityBuilder(entity);
 
 			// generate colum properties
-			var columnsGroup = entityBuilder.Properties(true);
+			var columnsGroup = entityBuilder.Properties(context.EntityLayout == EntityLayout.Table);
 			foreach (var columnModel in entity.Columns)
 			{
 				var columnBuilder = context.DefineProperty(columnsGroup, columnModel.Property);

@@ -110,6 +110,7 @@ namespace LinqToDB.CodeModel
 			string                                                                 newLine,
 			string                                                                 indent,
 			bool                                                                   useNRT,
+			Scaffold.EntityLayout                                                  entityLayout,
 			IReadOnlyDictionary<CodeIdentifier, ISet<IEnumerable<CodeIdentifier>>> knownTypes,
 			IReadOnlyDictionary<IEnumerable<CodeIdentifier>, ISet<CodeIdentifier>> scopedNames,
 			IReadOnlyDictionary<IEnumerable<CodeIdentifier>, ISet<CodeIdentifier>> scopedTypes)
@@ -119,6 +120,7 @@ namespace LinqToDB.CodeModel
 				newLine,
 				indent,
 				useNRT,
+				entityLayout,
 				knownTypes,
 				scopedNames,
 				scopedTypes);
