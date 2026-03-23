@@ -1525,32 +1525,41 @@ namespace LinqToDB.CodeModel
 
 		/// <summary>
 		/// Generate code for property group using compact/dense list layout.
-		/// Compact: inline attributes on line above property, blank line between properties.
-		/// Dense: inline attributes on same line as property, no blank lines.
+		/// Compact: attributes each on own line above property, blank line between properties.
+		/// Dense: inline attributes on same line as property, no blank lines (except before xml-doc).
 		/// </summary>
 		/// <param name="properties">Property group.</param>
-		/// <param name="dense">When true, attributes on same line and no blank lines between properties.</param>
+		/// <param name="dense">When true, attributes on same line and no blank lines between properties (except before xml-doc).</param>
 		private void WritePropertiesCompact(IReadOnlyList<CodeProperty> properties, bool dense)
 		{
 			for (var i = 0; i < properties.Count; i++)
 			{
 				var property = properties[i];
 
-				if (i > 0 && !dense)
-					WriteLine();
+				if (i > 0)
+				{
+					if (!dense)
+						WriteLine();
+					else if (property.XmlDoc != null)
+						WriteLine();
+				}
 
 				if (property.XmlDoc != null)
 					Visit(property.XmlDoc);
 
-				// render attributes inline: [Attr1, Attr2]
 				if (property.CustomAttributes.Count > 0)
 				{
-					WriteCustomAttributes(property.CustomAttributes, true);
-
-					if (!dense)
-						WriteLine();
-					else
+					if (dense)
+					{
+						// dense: inline attributes on same line [Attr1, Attr2] public ...
+						WriteCustomAttributes(property.CustomAttributes, true);
 						Write(' ');
+					}
+					else
+					{
+						// compact: each attribute on its own line above property
+						WriteCustomAttributes(property.CustomAttributes, false);
+					}
 				}
 
 				WriteModifiers(property.Attributes);
