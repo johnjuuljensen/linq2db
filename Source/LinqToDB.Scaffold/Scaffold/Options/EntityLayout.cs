@@ -17,8 +17,8 @@ namespace LinqToDB.Scaffold
 		/// </summary>
 		List,
 		/// <summary>
-		/// Compact list layout: each attribute is rendered on its own line above the property.
-		/// A blank line separates each property.
+		/// Compact list layout: attributes are rendered inline (e.g. <c>[PrimaryKey, GeneratedKey]</c>) on a line above the property.
+		/// No blank lines between properties, except before properties with XML documentation.
 		/// </summary>
 		ListCompact,
 		/// <summary>
